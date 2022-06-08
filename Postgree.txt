@@ -1,0 +1,53 @@
+DROP TABLE IF EXISTS kardbank_service_schema.brands;
+DROP TABLE IF EXISTS kardbank_service_schema.models;
+DROP TABLE IF EXISTS kardbank_service_schema.owners;
+DROP TABLE IF EXISTS kardbank_service_schema.vehicles;
+
+CREATE TABLE kardbank_vehicle_schema.brands (
+  	brand_id INT GENERATED ALWAYS AS IDENTITY,
+  	description VARCHAR(250) NOT NULL,
+  	registrationDate VARCHAR(12) NOT NULL,
+	PRIMARY KEY(brand_id)
+);
+
+CREATE TABLE kardbank_vehicle_schema.models (
+  	model_id INT GENERATED ALWAYS AS IDENTITY,
+  	description VARCHAR(250) NOT NULL,
+  	registrationDate VARCHAR(12) NOT NULL,
+	PRIMARY KEY(model_id)
+);
+
+CREATE TABLE kardbank_vehicle_schema.owners (
+  	owner_id INT GENERATED ALWAYS AS IDENTITY,
+  	name VARCHAR(250) NOT NULL,
+	CPF VARCHAR(14) NOT NULL,
+  	registrationDate VARCHAR(12) NOT NULL,
+	PRIMARY KEY(owner_id)
+);
+
+CREATE TABLE kardbank_vehicle_schema.vehicles (
+  	vehicle_id INT GENERATED ALWAYS AS IDENTITY,
+	brand_id INT,
+	model_id INT,
+	owner_id INT,
+  	licensePlate VARCHAR(8) NOT NULL,
+	manufacturingYear VARCHAR(4) NOT NULL,
+  	modelYear VARCHAR(4) NOT NULL,
+	chasi VARCHAR(17) NOT NULL,
+	PRIMARY KEY(vehicle_id),
+	CONSTRAINT fk_brand
+      FOREIGN KEY(brand_id)
+	  REFERENCES kardbank_vehicle_schema.brands(brand_id),
+	CONSTRAINT fk_model
+      FOREIGN KEY(model_id)
+	  REFERENCES kardbank_vehicle_schema.models(model_id),
+	CONSTRAINT fk_owner
+      FOREIGN KEY(owner_id)
+	  REFERENCES kardbank_vehicle_schema.owners(owner_id)
+
+	  ////////
+
+	  Variável de ambiente:
+
+	  DATABASE_DRIVER_CLASS=org.postgresql.Driver;
+	  DATABASE_URL_SERVER=jdbc:postgresql://localhost:5432/{nomedobanco}
